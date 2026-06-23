@@ -10,16 +10,29 @@ CONSUMER_KEY      = os.environ.get('MPESA_CONSUMER_KEY')
 CONSUMER_SECRET   = os.environ.get('MPESA_CONSUMER_SECRET')
 SHORTCODE         = os.environ.get('MPESA_SHORTCODE', '4136181')
 PASSKEY           = os.environ.get('MPESA_PASSKEY')
-CALLBACK_BASE_URL = os.environ.get('CALLBACK_BASE_URL')   # your Railway URL
-MPESA_ENV         = os.environ.get('MPESA_ENV', 'sandbox') # 'production' when live
+CALLBACK_BASE_URL = os.environ.get('CALLBACK_BASE_URL')
+MPESA_ENV         = os.environ.get('MPESA_ENV', 'sandbox')
 
 BASE_URL = (
     'https://sandbox.safaricom.co.ke' if MPESA_ENV == 'sandbox'
     else 'https://api.safaricom.co.ke'
 )
 
-# In-memory store — replace with Supabase for persistence
 txns = {}
+
+def send_telegram(message):
+    token = os.environ.get('TELEGRAM_BOT_TOKEN')
+    chat_id = os.environ.get('TELEGRAM_CHAT_ID')
+    if not token or not chat_id:
+        return
+    try:
+        requests.post(
+            f"https://api.telegram.org/bot{token}/sendMessage",
+            json={"chat_id": chat_id, "text": message, "parse_mode": "HTML"},
+            timeout=5
+        )
+    except Exception as e:
+        print(f"Telegram error: {e}")
 
 def get_token():
     auth = base64.b64encode(f"{CONSUMER_KEY}:{CONSUMER_SECRET}".encode()).decode()
@@ -46,8 +59,8 @@ def stk_push():
         return jsonify({'error': 'Phone and amount required'}), 400
 
     try:
-        token, ts = get_token(), None
         password, ts = make_password()
+        token = get_token()
         payload = {
             "BusinessShortCode": SHORTCODE,
             "Password": password,
@@ -92,12 +105,24 @@ def callback():
         if cid in txns:
             if code == 0:
                 items = {i['Name']: i['Value'] for i in stk['CallbackMetadata']['Item']}
+                receipt = items.get('MpesaReceiptNumber', 'N/A')
                 txns[cid].update({
                     'status': 'completed',
-                    'receipt': items.get('MpesaReceiptNumber', ''),
+                    'receipt': receipt,
                     'paid_at': str(items.get('TransactionDate', ''))
                 })
-                print(f"✅ {cid} | {items.get('MpesaReceiptNumber')} | {txns[cid]['name']}")
+                t = txns[cid]
+                send_telegram(
+                    f"✅ <b>WRC PAYMENT RECEIVED</b>\n\n"
+                    f"👤 <b>Name:</b> {t['name']}\n"
+                    f"🪪 <b>ID:</b> {t['id_number']}\n"
+                    f"📱 <b>Phone:</b> {t['phone']}\n"
+                    f"🎟 <b>Tier:</b> {t['tier']}\n"
+                    f"💰 <b>Amount:</b> KES {t['amount']:,}\n"
+                    f"🧾 <b>M-Pesa Ref:</b> {receipt}\n"
+                    f"🕐 <b>Time:</b> {datetime.now().strftime('%d %b %Y %H:%M:%S')}"
+                )
+                print(f"✅ {cid} | {receipt} | {t['name']}")
             else:
                 txns[cid].update({'status': 'failed', 'message': stk.get('ResultDesc', 'Failed')})
                 print(f"❌ {cid} | {stk.get('ResultDesc')}")
@@ -116,7 +141,6 @@ def status(cid):
 
 @app.route('/members', methods=['GET'])
 def members():
-    """Simple admin list — protect this with a password in production."""
     key = request.args.get('key')
     if key != os.environ.get('ADMIN_KEY', 'changeme'):
         return jsonify({'error': 'Unauthorized'}), 401
