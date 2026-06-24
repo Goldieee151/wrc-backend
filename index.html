@@ -1,635 +1,679 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>WRC Private — Tickets & Membership</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WRC Private — Join the Inner Circle</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --gold:    #C9A84C;
-      --gold2:   #E8C96A;
-      --dark:    #0C0C0C;
-      --surface: #141414;
-      --card:    #1A1A1A;
-      --border:  #2A2A2A;
-      --white:   #F5F0E8;
-      --muted:   #6E6E6E;
-      --error:   #E05555;
-      --green:   #3D9970;
-    }
+:root {
+  --black: #080808;
+  --deep: #0F0F0F;
+  --gold: #B8962E;
+  --gold-light: #D4AF5A;
+  --gold-pale: rgba(184,150,46,0.12);
+  --white: #F8F5EF;
+  --grey: rgba(248,245,239,0.45);
+  --border: rgba(184,150,46,0.18);
+}
 
-    html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
 
-    body {
-      background: var(--dark);
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-    }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
 
-    .hero {
-      position: relative;
-      background: linear-gradient(160deg, #0C0C0C 60%, #1A1408 100%);
-      border-bottom: 1px solid var(--border);
-      padding: 56px 24px 52px;
-      text-align: center;
-      overflow: hidden;
-    }
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px 48px;
+  background: rgba(8,8,8,0.9);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 700;
+  letter-spacing: 6px; text-transform: uppercase;
+  color: var(--gold-light);
+}
+.nav-btn {
+  background: transparent; border: 1px solid var(--gold);
+  color: var(--gold); padding: 9px 22px;
+  font-family: 'Inter', sans-serif; font-size: 11px;
+  font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s;
+}
+.nav-btn:hover { background: var(--gold); color: var(--black); }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  text-align: center;
+  padding: 140px 24px 100px;
+  position: relative; overflow: hidden;
+}
+.hero-glow {
+  position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 800px; height: 500px;
+  background: radial-gradient(ellipse at top, rgba(184,150,46,0.09) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-line {
+  width: 1px; height: 60px;
+  background: linear-gradient(to bottom, transparent, var(--gold));
+  margin: 0 auto 36px;
+}
+.eyebrow {
+  font-size: 10px; letter-spacing: 6px;
+  text-transform: uppercase; color: var(--gold);
+  font-weight: 500; margin-bottom: 24px;
+}
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(56px, 10vw, 120px);
+  font-weight: 700; line-height: 0.9;
+  letter-spacing: -1px; margin-bottom: 36px;
+}
+.hero h1 em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 60%, var(--gold) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-desc {
+  max-width: 480px; font-size: 16px;
+  color: var(--grey); margin: 0 auto 52px; line-height: 1.8;
+}
+.hero-desc strong { color: var(--white); font-weight: 500; }
+.hero-cta-group { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.btn-gold {
+  background: var(--gold); color: var(--black);
+  border: none; padding: 18px 52px;
+  font-family: 'Inter', sans-serif; font-size: 12px;
+  font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+  cursor: pointer; transition: all 0.25s;
+}
+.btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(184,150,46,0.25); }
+.hero-note { font-size: 12px; color: rgba(248,245,239,0.3); letter-spacing: 1px; }
+.hero-note span { color: var(--gold); }
 
-    .badge {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gold);
-      border: 1px solid rgba(201,168,76,0.35);
-      border-radius: 100px;
-      padding: 5px 16px;
-      margin-bottom: 24px;
-    }
+/* ── TRUST BAR ── */
+.trust-bar {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 28px 48px;
+  display: flex; justify-content: center;
+  gap: 64px; flex-wrap: wrap;
+}
+.trust-item { text-align: center; }
+.trust-item .num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px; font-weight: 700; color: var(--gold-light);
+  display: block; line-height: 1;
+}
+.trust-item .lbl {
+  font-size: 10px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--grey); margin-top: 4px;
+}
 
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(38px, 8vw, 72px);
-      font-weight: 900;
-      line-height: 1.05;
-      letter-spacing: -0.01em;
-      color: var(--white);
-      margin-bottom: 8px;
-    }
+/* ── TIERS ── */
+.tiers-section {
+  padding: 110px 24px;
+  max-width: 960px; margin: 0 auto;
+}
+.section-header { text-align: center; margin-bottom: 64px; }
+.section-header .eyebrow { display: block; margin-bottom: 14px; }
+.section-header h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 56px); font-weight: 700; line-height: 1.1;
+}
 
-    .hero-title span { color: var(--gold); }
+.tiers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--border);
+}
 
-    .hero-sub {
-      font-size: 15px;
-      color: var(--muted);
-      max-width: 380px;
-      margin: 16px auto 0;
-      line-height: 1.7;
-    }
+.tier {
+  background: var(--deep);
+  padding: 52px 44px;
+  position: relative;
+  transition: background 0.2s;
+}
+.tier:hover { background: #141414; }
+.tier.featured { background: #0d0c09; }
+.tier-badge {
+  position: absolute; top: 24px; right: 24px;
+  background: var(--gold); color: var(--black);
+  font-size: 9px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; padding: 5px 12px;
+}
+.tier-name {
+  font-size: 10px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 16px; font-weight: 500;
+}
+.tier-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px; font-weight: 700;
+  margin-bottom: 8px;
+}
+.tier-tagline {
+  font-size: 13px; color: var(--grey);
+  margin-bottom: 36px; line-height: 1.6;
+}
+.tier-price {
+  margin-bottom: 36px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid var(--border);
+}
+.tier-price .amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px; font-weight: 700;
+  color: var(--gold-light); line-height: 1;
+}
+.tier-price .currency {
+  font-size: 20px; vertical-align: super;
+  color: var(--gold); font-weight: 400;
+}
+.tier-price .period {
+  font-size: 13px; color: var(--grey);
+  display: block; margin-top: 4px; letter-spacing: 1px;
+}
+.tier-perks { list-style: none; margin-bottom: 40px; }
+.tier-perks li {
+  font-size: 13px; color: rgba(248,245,239,0.65);
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.tier-perks li::before {
+  content: '—'; color: var(--gold);
+  flex-shrink: 0; font-size: 12px; margin-top: 1px;
+}
+.tier-btn {
+  width: 100%; padding: 16px;
+  font-family: 'Inter', sans-serif; font-size: 11px;
+  font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s;
+  border: none;
+}
+.tier-btn.outline {
+  background: transparent; color: var(--gold);
+  border: 1px solid var(--gold);
+}
+.tier-btn.outline:hover { background: var(--gold); color: var(--black); }
+.tier-btn.solid { background: var(--gold); color: var(--black); }
+.tier-btn.solid:hover { background: var(--gold-light); transform: translateY(-1px); }
 
-    .divider-gold {
-      width: 48px;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      margin: 28px auto 0;
-    }
+/* ── WHAT HAPPENS ── */
+.process-section {
+  padding: 100px 24px;
+  max-width: 760px; margin: 0 auto;
+}
+.process-section .section-header { margin-bottom: 72px; }
+.process-step {
+  display: grid; grid-template-columns: 64px 1fr;
+  gap: 28px; margin-bottom: 52px; align-items: start;
+}
+.step-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 72px; font-weight: 700;
+  color: rgba(184,150,46,0.15); line-height: 1;
+}
+.step-body { padding-top: 12px; }
+.step-body h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 700; margin-bottom: 8px;
+}
+.step-body p { font-size: 14px; color: var(--grey); line-height: 1.7; }
 
-    main {
-      max-width: 520px;
-      margin: 0 auto;
-      padding: 40px 20px 80px;
-    }
+/* ── SCARCITY ── */
+.scarcity-band {
+  margin: 0 24px;
+  border: 1px solid var(--border);
+  background: var(--gold-pale);
+  padding: 64px 48px;
+  text-align: center;
+}
+.scarcity-band .big {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(72px, 12vw, 120px);
+  font-weight: 700; color: var(--gold-light);
+  line-height: 1; display: block;
+}
+.scarcity-band .lbl {
+  font-size: 11px; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--grey); margin-bottom: 20px;
+}
+.scarcity-band p {
+  font-size: 15px; color: var(--grey);
+  max-width: 440px; margin: 0 auto 36px; line-height: 1.7;
+}
 
-    .section-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
+/* ── PAYMENT MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.88); z-index: 999;
+  justify-content: center; align-items: center;
+  padding: 20px;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: #0F0F0F;
+  border: 1px solid var(--border);
+  width: 100%; max-width: 480px;
+  max-height: 90vh; overflow-y: auto;
+}
+.modal-header {
+  background: var(--gold-pale);
+  border-bottom: 1px solid var(--border);
+  padding: 32px 36px 28px;
+}
+.modal-header .eyebrow { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.modal-header h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 700;
+}
+.modal-body { padding: 32px 36px; }
 
-    .options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 36px;
-    }
+/* Tier Toggle */
+.tier-toggle {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2px; background: var(--border); margin-bottom: 28px;
+}
+.toggle-opt {
+  background: #161616; padding: 16px 12px;
+  cursor: pointer; transition: background 0.15s;
+  border: none; color: var(--white);
+  font-family: 'Inter', sans-serif; text-align: center;
+}
+.toggle-opt:hover { background: #1e1e1e; }
+.toggle-opt.active { background: var(--gold-pale); border-bottom: 2px solid var(--gold); }
+.toggle-opt .t-name { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 4px; }
+.toggle-opt .t-price { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--white); }
 
-    .option-card {
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 22px 18px;
-      cursor: pointer;
-      background: var(--card);
-      transition: border-color 0.2s, background 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
+.form-group { margin-bottom: 18px; }
+.form-group label {
+  display: block; font-size: 10px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--grey); margin-bottom: 8px;
+}
+.form-group input {
+  width: 100%; background: #161616;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--white); padding: 14px 16px;
+  font-family: 'Inter', sans-serif; font-size: 14px;
+  outline: none; transition: border-color 0.2s;
+}
+.form-group input:focus { border-color: var(--gold); }
+.form-group input::placeholder { color: rgba(255,255,255,0.2); }
 
-    .option-card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
+.phone-row { display: grid; grid-template-columns: 72px 1fr; gap: 2px; }
+.phone-prefix {
+  background: #1a1a1a; border: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: var(--grey); font-weight: 500;
+}
 
-    .option-card:hover { border-color: #3A3A3A; }
-    .option-card:hover::after { opacity: 1; }
+.summary-box {
+  background: var(--gold-pale); border: 1px solid var(--border);
+  padding: 18px 20px; margin-bottom: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.summary-box .s-label { font-size: 12px; color: var(--grey); }
+.summary-box .s-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px; font-weight: 700; color: var(--gold-light);
+}
 
-    .option-card.selected {
-      border-color: var(--gold);
-      background: #1C1810;
-    }
+.pay-btn {
+  width: 100%; padding: 18px;
+  background: var(--gold); color: var(--black);
+  border: none; font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s;
+  margin-bottom: 16px;
+}
+.pay-btn:hover { background: var(--gold-light); }
+.pay-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    .option-card.selected::after { opacity: 1; }
+.modal-note { font-size: 11px; color: var(--grey); text-align: center; line-height: 1.6; }
+.modal-close-row { padding: 20px 36px; border-top: 1px solid var(--border); text-align: center; }
+.modal-close-btn {
+  background: none; border: none; color: rgba(255,255,255,0.25);
+  font-size: 12px; letter-spacing: 1px; cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+.modal-close-btn:hover { color: var(--white); }
 
-    .option-type {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 8px;
-    }
+.status-msg {
+  padding: 14px 16px; margin-bottom: 16px;
+  font-size: 13px; text-align: center; display: none;
+  border: 1px solid;
+}
+.status-msg.success { background: rgba(46,184,92,0.08); border-color: rgba(46,184,92,0.3); color: #4ade80; }
+.status-msg.error { background: rgba(184,46,46,0.08); border-color: rgba(184,46,46,0.3); color: #f87171; }
+.status-msg.info { background: var(--gold-pale); border-color: var(--border); color: var(--gold-light); }
 
-    .option-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: var(--white);
-    }
+/* ── FOOTER ── */
+footer {
+  padding: 40px 48px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 12px;
+  margin-top: 100px;
+}
+footer span { font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 1px; }
 
-    .option-price {
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--gold2);
-      margin-top: 12px;
-    }
-
-    .option-price span {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 400;
-    }
-
-    .option-desc {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.5;
-      margin-top: 4px;
-    }
-
-    .check-dot {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .option-card.selected .check-dot {
-      border-color: var(--gold);
-      background: var(--gold);
-    }
-
-    .option-card.selected .check-dot::after {
-      content: '✓';
-      font-size: 11px;
-      color: #000;
-      font-weight: 700;
-    }
-
-    .form-wrap {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px;
-    }
-
-    .field { margin-bottom: 20px; }
-
-    .field label {
-      display: block;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .field input {
-      width: 100%;
-      background: var(--dark);
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      padding: 13px 16px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .field input:focus { border-color: var(--gold); }
-    .field input::placeholder { color: #3A3A3A; }
-
-    .phone-row { display: flex; gap: 10px; }
-
-    .prefix {
-      background: var(--dark);
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      padding: 13px 14px;
-      width: 72px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .field-error {
-      font-size: 12px;
-      color: var(--error);
-      margin-top: 6px;
-      display: none;
-    }
-
-    .summary {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #15110A;
-      border: 1px solid rgba(201,168,76,0.25);
-      border-radius: 10px;
-      padding: 16px 18px;
-      margin-bottom: 22px;
-    }
-
-    .summary-left { font-size: 13px; color: var(--muted); }
-    .summary-tier {
-      font-family: 'Playfair Display', serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--white);
-      margin-top: 2px;
-    }
-
-    .summary-amount {
-      font-family: 'Playfair Display', serif;
-      font-size: 26px;
-      font-weight: 900;
-      color: var(--gold);
-    }
-
-    .pay-btn {
-      width: 100%;
-      background: linear-gradient(135deg, var(--gold) 0%, #A8862E 100%);
-      color: #000;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 700;
-      font-size: 15px;
-      letter-spacing: 0.04em;
-      border: none;
-      border-radius: 10px;
-      padding: 17px;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .pay-btn:hover { opacity: 0.92; }
-    .pay-btn:active { transform: scale(0.98); }
-    .pay-btn:disabled {
-      background: var(--border);
-      color: var(--muted);
-      cursor: not-allowed;
-      opacity: 1;
-    }
-
-    .mpesa-pill {
-      background: rgba(0,0,0,0.25);
-      color: #000;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-      padding: 3px 9px;
-      border-radius: 100px;
-    }
-
-    .pay-hint {
-      font-size: 12px;
-      color: var(--muted);
-      text-align: center;
-      margin-top: 14px;
-      line-height: 1.7;
-    }
-
-    .overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.88);
-      backdrop-filter: blur(8px);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
-    .overlay.show { display: flex; }
-
-    .modal {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 40px 28px;
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-    }
-
-    .modal-icon { font-size: 52px; margin-bottom: 18px; }
-
-    .modal-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      font-weight: 900;
-      margin-bottom: 10px;
-    }
-
-    .modal-msg {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 28px;
-    }
-
-    .receipt-box {
-      background: var(--dark);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
-      margin-bottom: 24px;
-      text-align: left;
-    }
-
-    .receipt-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      padding: 5px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .receipt-row:last-child { border-bottom: none; }
-    .receipt-row .rkey { color: var(--muted); }
-    .receipt-row .rval { font-weight: 600; color: var(--white); }
-    .receipt-code { color: var(--gold); font-weight: 700; }
-
-    .spinner {
-      width: 48px;
-      height: 48px;
-      border: 3px solid var(--border);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 0.75s linear infinite;
-      margin: 0 auto 20px;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .modal-btn {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 14px;
-      padding: 12px 32px;
-      border-radius: 9px;
-      cursor: pointer;
-      transition: border-color 0.2s;
-    }
-
-    .modal-btn:hover { border-color: var(--gold); }
-
-    .modal-btn.gold {
-      background: linear-gradient(135deg, var(--gold) 0%, #A8862E 100%);
-      border: none;
-      color: #000;
-      font-weight: 700;
-    }
-
-    footer {
-      text-align: center;
-      padding: 28px;
-      font-size: 12px;
-      color: #333;
-      border-top: 1px solid var(--border);
-    }
-
-    @media (max-width: 400px) {
-      .options { grid-template-columns: 1fr; }
-      .form-wrap { padding: 20px 16px; }
-    }
-  </style>
+@media (max-width: 700px) {
+  nav { padding: 18px 20px; }
+  .trust-bar { gap: 32px; padding: 24px 20px; }
+  .tiers-grid { grid-template-columns: 1fr; }
+  .tier { padding: 40px 28px; }
+  .process-step { grid-template-columns: 44px 1fr; gap: 16px; }
+  .step-num { font-size: 52px; }
+  .scarcity-band { padding: 48px 24px; margin: 0; }
+  footer { flex-direction: column; text-align: center; padding: 32px 20px; }
+  .modal-header, .modal-body { padding: 24px 24px; }
+  .modal-close-row { padding: 16px 24px; }
+}
+</style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="badge">WRC Private</div>
-  <h1 class="hero-title">Join the<br><span>Inner Circle</span></h1>
-  <p class="hero-sub">Secure your pass or become a WRC member. Payment via M-Pesa — instant receipt issued.</p>
-  <div class="divider-gold"></div>
+<!-- NAV -->
+<nav>
+  <div class="logo">WRC Private</div>
+  <button class="nav-btn" onclick="openModal('pass')">Join Now</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-line"></div>
+  <p class="eyebrow">Private Members Club · Kenya</p>
+  <h1>The <em>Inner<br>Circle.</em></h1>
+  <p class="hero-desc">
+    Most people hear about decisions <strong>after</strong> they're made.<br>
+    WRC members are in the room when it matters.
+  </p>
+  <div class="hero-cta-group">
+    <button class="btn-gold" onclick="openModal('pass')">Secure Your Access Now</button>
+    <p class="hero-note">Founding seats limited · <span>KES 2,500 one-time · KES 10,000 annual</span></p>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item">
+    <span class="num">100</span>
+    <span class="lbl">Founding Seats</span>
+  </div>
+  <div class="trust-item">
+    <span class="num">1×</span>
+    <span class="lbl">Monthly Private Session</span>
+  </div>
+  <div class="trust-item">
+    <span class="num">24h</span>
+    <span class="lbl">Access After Payment</span>
+  </div>
+  <div class="trust-item">
+    <span class="num">M-Pesa</span>
+    <span class="lbl">Instant Payment</span>
+  </div>
 </div>
 
-<main>
-  <div class="section-label">Select your access</div>
-  <div class="options">
-    <div class="option-card selected" data-amount="2500" data-tier="Inner Circle Pass" onclick="selectOption(this)">
-      <div class="check-dot"></div>
-      <div class="option-type">One-Time Access</div>
-      <div class="option-name">Inner Circle Pass</div>
-      <div class="option-desc">Exclusive access to a private gathering</div>
-      <div class="option-price">KES 2,500</div>
+<!-- TIERS -->
+<section class="tiers-section">
+  <div class="section-header">
+    <span class="eyebrow">Choose Your Access</span>
+    <h2>One circle.<br>Two ways in.</h2>
+  </div>
+  <div class="tiers-grid">
+
+    <div class="tier">
+      <p class="tier-name">One-Time</p>
+      <h3 class="tier-title">Inner Circle Pass</h3>
+      <p class="tier-tagline">Attend one private gathering. See what's inside before committing.</p>
+      <div class="tier-price">
+        <div class="amount"><span class="currency">KES </span>2,500</div>
+        <span class="period">Single event access</span>
+      </div>
+      <ul class="tier-perks">
+        <li>Full access to one private gathering</li>
+        <li>Direct engagement with WRC</li>
+        <li>Members-only briefing for that session</li>
+        <li>Receipt issued instantly via M-Pesa</li>
+      </ul>
+      <button class="tier-btn outline" onclick="openModal('pass')">Get My Pass</button>
     </div>
-    <div class="option-card" data-amount="10000" data-tier="Inner Circle Membership" onclick="selectOption(this)">
-      <div class="check-dot"></div>
-      <div class="option-type">Full Access</div>
-      <div class="option-name">Inner Circle Membership</div>
-      <div class="option-desc">Year-round member privileges</div>
-      <div class="option-price">KES 10,000</div>
+
+    <div class="tier featured">
+      <div class="tier-badge">Best Value</div>
+      <p class="tier-name">Annual</p>
+      <h3 class="tier-title">Full Membership</h3>
+      <p class="tier-tagline">Year-round privileges. The network, the access, the inside lane.</p>
+      <div class="tier-price">
+        <div class="amount"><span class="currency">KES </span>10,000</div>
+        <span class="period">Per year · Under KES 835/month</span>
+      </div>
+      <ul class="tier-perks">
+        <li>All monthly private sessions for 12 months</li>
+        <li>Exclusive WhatsApp/Telegram members channel</li>
+        <li>Insider policy briefings before public release</li>
+        <li>Direct line to WRC between sessions</li>
+        <li>Founding member status locked permanently</li>
+      </ul>
+      <button class="tier-btn solid" onclick="openModal('membership')">Become a Member</button>
     </div>
+
+  </div>
+</section>
+
+<!-- SCARCITY -->
+<div class="scarcity-band">
+  <span class="big">100</span>
+  <p class="lbl">Founding Member Seats Available</p>
+  <p>Once founding seats are filled, the next cohort pays more and joins a waitlist. Lock in your rate now — it will not be offered again.</p>
+  <button class="btn-gold" onclick="openModal('membership')">Claim a Founding Seat</button>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="process-section">
+  <div class="section-header">
+    <span class="eyebrow">The Process</span>
+    <h2>Inside in<br>three steps.</h2>
   </div>
 
-  <div class="form-wrap">
-    <div class="field">
-      <label>Full Name</label>
-      <input type="text" id="fname" placeholder="Your full name" autocomplete="name"/>
+  <div class="process-step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h3>Pay via M-Pesa STK Push</h3>
+      <p>Enter your details. An M-Pesa PIN prompt goes straight to your phone. Confirm and you're done — receipt issued instantly.</p>
     </div>
-    <div class="field">
-      <label>ID Number</label>
-      <input type="text" id="idnum" placeholder="National ID number" inputmode="numeric"/>
-    </div>
-    <div class="field">
-      <label>M-Pesa Phone Number</label>
-      <div class="phone-row">
-        <div class="prefix">+254</div>
-        <input type="tel" id="phone" placeholder="7XX XXX XXX" maxlength="9" inputmode="numeric"/>
-      </div>
-      <div class="field-error" id="phone-err">Enter a valid Safaricom number</div>
-    </div>
-    <div class="summary">
-      <div class="summary-left">
-        Paying for
-        <div class="summary-tier" id="sum-tier">Inner Circle Pass</div>
-      </div>
-      <div class="summary-amount" id="sum-amount">KES 2,500</div>
-    </div>
-    <button class="pay-btn" id="pay-btn" onclick="pay()">
-      Pay Now <span class="mpesa-pill">M-PESA</span>
-    </button>
-    <p class="pay-hint">You'll receive an M-Pesa PIN prompt on your phone.<br>Enter PIN to confirm. Receipt issued instantly.</p>
   </div>
-</main>
+  <div class="process-step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h3>Get Added Within 24 Hours</h3>
+      <p>Payment confirmed = you're in. Added to the private channel and sent joining instructions within 24 hours.</p>
+    </div>
+  </div>
+  <div class="process-step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h3>Attend Your First Session</h3>
+      <p>Location shared exclusively to confirmed members 48 hours before each gathering. Show up and see why people don't leave.</p>
+    </div>
+  </div>
+</section>
 
-<footer>© 2025 WRC Private · Paybill 4136181</footer>
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 WRC Private · Paybill 4136181</span>
+  <span>Private Members Club · Kenya</span>
+</footer>
 
-<div class="overlay" id="overlay">
-  <div class="modal" id="modal"></div>
+<!-- PAYMENT MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeOutside(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <p class="eyebrow">Secure Payment · M-Pesa</p>
+      <h3>Join WRC Private</h3>
+    </div>
+    <div class="modal-body">
+
+      <!-- Tier Toggle -->
+      <div class="tier-toggle">
+        <button class="toggle-opt active" id="tog-pass" onclick="selectTier('pass')">
+          <span class="t-name">Inner Circle Pass</span>
+          <span class="t-price">KES 2,500</span>
+        </button>
+        <button class="toggle-opt" id="tog-membership" onclick="selectTier('membership')">
+          <span class="t-name">Full Membership</span>
+          <span class="t-price">KES 10,000</span>
+        </button>
+      </div>
+
+      <div class="status-msg" id="statusMsg"></div>
+
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="fullName" placeholder="Your full name" />
+      </div>
+      <div class="form-group">
+        <label>ID Number</label>
+        <input type="text" id="idNumber" placeholder="National ID number" inputmode="numeric" />
+      </div>
+      <div class="form-group">
+        <label>M-Pesa Phone Number</label>
+        <div class="phone-row">
+          <div class="phone-prefix">+254</div>
+          <input type="tel" id="phone" placeholder="7XX XXX XXX" inputmode="numeric" maxlength="9" />
+        </div>
+      </div>
+
+      <div class="summary-box">
+        <div>
+          <div class="s-label">Paying for</div>
+          <div style="font-size:13px; margin-top:2px; color:var(--white)" id="summaryLabel">Inner Circle Pass</div>
+        </div>
+        <div class="s-amount" id="summaryAmount">KES 2,500</div>
+      </div>
+
+      <button class="pay-btn" id="payBtn" onclick="submitPayment()">
+        Pay Now via M-Pesa
+      </button>
+      <p class="modal-note">You'll receive an M-Pesa PIN prompt on your phone.<br>Enter PIN to confirm. Receipt issued instantly.</p>
+    </div>
+    <div class="modal-close-row">
+      <button class="modal-close-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
 </div>
 
 <script>
-  const BACKEND = 'https://wrc-backend-production.up.railway.app';
+let selectedTier = 'pass';
+const tiers = {
+  pass: { label: 'Inner Circle Pass', amount: 2500 },
+  membership: { label: 'Full Membership', amount: 10000 }
+};
 
-  let amount = 2500;
-  let tier = 'Inner Circle Pass';
-  let pollTimer = null;
+function selectTier(tier) {
+  selectedTier = tier;
+  document.querySelectorAll('.toggle-opt').forEach(el => el.classList.remove('active'));
+  document.getElementById('tog-' + tier).classList.add('active');
+  document.getElementById('summaryLabel').textContent = tiers[tier].label;
+  document.getElementById('summaryAmount').textContent = 'KES ' + tiers[tier].amount.toLocaleString();
+}
 
-  function selectOption(el) {
-    document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    amount = parseInt(el.dataset.amount);
-    tier = el.dataset.tier;
-    document.getElementById('sum-tier').textContent = tier;
-    document.getElementById('sum-amount').textContent = 'KES ' + amount.toLocaleString();
-  }
+function openModal(tier) {
+  selectTier(tier || 'pass');
+  document.getElementById('modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  clearStatus();
+}
 
-  function parsePhone(raw) {
-    const c = raw.replace(/\s/g,'');
-    if (!/^[07][0-9]{8}$/.test(c)) return null;
-    return '254' + c.replace(/^0/,'');
-  }
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+  document.body.style.overflow = '';
+}
 
-  async function pay() {
-    const name  = document.getElementById('fname').value.trim();
-    const idnum = document.getElementById('idnum').value.trim();
-    const raw   = document.getElementById('phone').value.trim();
-    const phone = parsePhone(raw);
-    const perr  = document.getElementById('phone-err');
+function closeOutside(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
 
-    perr.style.display = phone ? 'none' : 'block';
-    if (!name || !idnum || !phone) return;
+function showStatus(msg, type) {
+  const el = document.getElementById('statusMsg');
+  el.textContent = msg;
+  el.className = 'status-msg ' + type;
+  el.style.display = 'block';
+}
 
-    document.getElementById('pay-btn').disabled = true;
-    showLoading();
+function clearStatus() {
+  const el = document.getElementById('statusMsg');
+  el.style.display = 'none';
+  el.textContent = '';
+}
 
-    try {
-      const res = await fetch(`${BACKEND}/stk-push`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, amount, name, id_number: idnum, tier })
-      });
-      const data = await res.json();
+async function submitPayment() {
+  clearStatus();
+  const fullName = document.getElementById('fullName').value.trim();
+  const idNumber = document.getElementById('idNumber').value.trim();
+  const phoneRaw = document.getElementById('phone').value.trim().replace(/\s/g, '');
 
-      if (!res.ok || data.error) {
-        showError(data.error || 'Payment initiation failed. Try again.');
-        document.getElementById('pay-btn').disabled = false;
-        return;
-      }
+  if (!fullName) { showStatus('Please enter your full name.', 'error'); return; }
+  if (!idNumber || !/^\d{7,8}$/.test(idNumber)) { showStatus('Please enter a valid ID number.', 'error'); return; }
+  if (!phoneRaw || !/^(7|1)\d{8}$/.test(phoneRaw)) { showStatus('Enter a valid Safaricom number e.g. 712345678.', 'error'); return; }
 
-      pollResult(data.checkout_request_id, name, idnum);
+  const phone = '254' + phoneRaw;
+  const btn = document.getElementById('payBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending prompt…';
 
-    } catch(e) {
-      showError('Cannot reach server. Check your connection.');
-      document.getElementById('pay-btn').disabled = false;
+  showStatus('Sending M-Pesa prompt to your phone…', 'info');
+
+  try {
+    const res = await fetch('https://wrcprivate.club/pay', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        phone,
+        amount: tiers[selectedTier].amount,
+        full_name: fullName,
+        id_number: idNumber,
+        tier: selectedTier
+      })
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      showStatus('✓ M-Pesa prompt sent! Enter your PIN on your phone to complete payment.', 'success');
+      btn.textContent = 'Prompt Sent — Check Your Phone';
+    } else {
+      throw new Error(data.message || 'Payment initiation failed.');
     }
+  } catch (err) {
+    showStatus(err.message || 'Something went wrong. Please try again.', 'error');
+    btn.disabled = false;
+    btn.textContent = 'Pay Now via M-Pesa';
   }
-
-  function pollResult(cid, name, idnum) {
-    let tries = 0;
-    pollTimer = setInterval(async () => {
-      tries++;
-      if (tries > 24) {
-        clearInterval(pollTimer);
-        showError('Timed out waiting for payment. If you paid, your receipt will be sent via SMS.');
-        document.getElementById('pay-btn').disabled = false;
-        return;
-      }
-      try {
-        const r = await fetch(`${BACKEND}/payment-status/${cid}`);
-        const d = await r.json();
-        if (d.status === 'completed') {
-          clearInterval(pollTimer);
-          showSuccess(name, idnum, d.receipt, tier, amount);
-        } else if (d.status === 'failed') {
-          clearInterval(pollTimer);
-          showError(d.message || 'Transaction was not completed.');
-          document.getElementById('pay-btn').disabled = false;
-        }
-      } catch(_) {}
-    }, 3000);
-  }
-
-  function showLoading() {
-    document.getElementById('overlay').classList.add('show');
-    document.getElementById('modal').innerHTML = `
-      <div class="spinner"></div>
-      <div class="modal-title">Sending prompt…</div>
-      <div class="modal-msg">Check your phone for the M-Pesa PIN request.<br>Do not close this page.</div>`;
-  }
-
-  function showSuccess(name, idnum, receipt, tier, amount) {
-    const ref = 'WRC-' + Date.now().toString(36).toUpperCase();
-    document.getElementById('modal').innerHTML = `
-      <div class="modal-icon">🏅</div>
-      <div class="modal-title" style="color:var(--gold)">Payment Confirmed</div>
-      <div class="modal-msg">Welcome to WRC Private. Your receipt is below.</div>
-      <div class="receipt-box">
-        <div class="receipt-row"><span class="rkey">Name</span><span class="rval">${name}</span></div>
-        <div class="receipt-row"><span class="rkey">ID Number</span><span class="rval">${idnum}</span></div>
-        <div class="receipt-row"><span class="rkey">Access</span><span class="rval">${tier}</span></div>
-        <div class="receipt-row"><span class="rkey">Amount</span><span class="rval">KES ${amount.toLocaleString()}</span></div>
-        <div class="receipt-row"><span class="rkey">M-Pesa Ref</span><span class="rval receipt-code">${receipt || 'PENDING'}</span></div>
-        <div class="receipt-row"><span class="rkey">WRC Ref</span><span class="rval receipt-code">${ref}</span></div>
-        <div class="receipt-row"><span class="rkey">Paybill</span><span class="rval">4136181</span></div>
-        <div class="receipt-row"><span class="rkey">Date</span><span class="rval">${new Date().toLocaleString('en-KE')}</span></div>
-      </div>
-      <button class="modal-btn gold" onclick="window.print()">Save Receipt</button>
-      &nbsp;
-      <button class="modal-btn" onclick="closeModal()">Done</button>`;
-  }
-
-  function showError(msg) {
-    document.getElementById('modal').innerHTML = `
-      <div class="modal-icon">⚠️</div>
-      <div class="modal-title" style="color:var(--error)">Payment Failed</div>
-      <div class="modal-msg">${msg}</div>
-      <button class="modal-btn" onclick="closeModal()">Try Again</button>`;
-  }
-
-  function closeModal() {
-    document.getElementById('overlay').classList.remove('show');
-    if (pollTimer) clearInterval(pollTimer);
-  }
+}
 </script>
 </body>
 </html>
