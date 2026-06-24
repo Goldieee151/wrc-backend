@@ -46,18 +46,9 @@ def make_password():
     raw = f"{SHORTCODE}{PASSKEY}{ts}"
     return base64.b64encode(raw.encode()).decode(), ts
 
-@app.route('/stk-push', methods=['POST'])
-def stk_push():
-    d = request.get_json()
-    phone     = d.get('phone')
-    amount    = d.get('amount')
-    name      = d.get('name', 'Member')
-    id_number = d.get('id_number', '')
-    tier      = d.get('tier', 'WRC Access')
-
+def process_stk(phone, amount, name, id_number, tier):
     if not phone or not amount:
         return jsonify({'error': 'Phone and amount required'}), 400
-
     try:
         password, ts = make_password()
         token = get_token()
@@ -90,10 +81,32 @@ def stk_push():
             'name': name, 'id_number': id_number, 'tier': tier,
             'created': datetime.utcnow().isoformat()
         }
-        return jsonify({'checkout_request_id': cid})
+        return jsonify({'success': True, 'checkout_request_id': cid})
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/stk-push', methods=['POST'])
+def stk_push():
+    d = request.get_json()
+    return process_stk(
+        phone=d.get('phone'),
+        amount=d.get('amount'),
+        name=d.get('name', 'Member'),
+        id_number=d.get('id_number', ''),
+        tier=d.get('tier', 'WRC Access')
+    )
+
+@app.route('/pay', methods=['POST'])
+def pay():
+    d = request.get_json()
+    return process_stk(
+        phone=d.get('phone'),
+        amount=d.get('amount'),
+        name=d.get('full_name', d.get('name', 'Member')),
+        id_number=d.get('id_number', ''),
+        tier=d.get('tier', 'WRC Access')
+    )
 
 @app.route('/callback', methods=['POST'])
 def callback():
