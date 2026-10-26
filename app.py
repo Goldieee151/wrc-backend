@@ -11,9 +11,11 @@ SITE_URL = os.environ.get('SITE_URL', 'https://wrcprivate.club')
 
 # Prices live HERE, never in the browser. Amounts are in cents (USD).
 TIERS = {
-    'prive':  {'label': 'Privé Access',       'amount': 100},
-    'circle': {'label': 'Inner Circle Pass',  'amount': 500},
-    'elite':  {'label': 'Elite Pass',         'amount': 1000},
+    TIERS = {
+    'prive':  {'label': 'Privé Access',       'amount': 1000},
+    'circle': {'label': 'Inner Circle Pass',  'amount': 2000},
+    'elite':  {'label': 'Elite Pass',         'amount': 5000},
+}
 }
 
 def send_telegram(message):
